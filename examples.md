@@ -242,7 +242,7 @@ ffmpeg.exe -hwaccel cuvid -i .\out.mp4 -vf crop=2048:2048:0:0 -c:v h264_nvenc -y
 
 #### 苏肤佳 录播裁剪 剩下歌词滚动和歌曲进度
 
-`ffmpeg.exe -c:v h264_cuvid -i .\20年2月录播_P1_18日：被套了虚弱的一天.flv -vf crop=1000:920:90:115 -c:v h264_nvenc -y small.mp4`
+`ffmpeg.exe -c:v h264_cuvid -i .\20年2月录播_P1_18日：被套了虚弱的一天.flv -vf crop=1000:920:90:115 -c:v h264_nvenc -b:v 0.5M -c:a copy -y small.mp4`
 
 
 
@@ -258,5 +258,16 @@ cuvid 使用的是 G卡
 -b:v 0.8M 把视频的比特率保持在0.8M左右
 -c:v hevc_nvenc 使用h265的 G卡的编码器, 也可以用 h264_nvenc也就是h264标准
 
+```
+
+
+
+# 批量操作
+
+```powershell
+$dir = dir .
+foreach($_ in $dir) {
+  ffmpeg.exe -c:v h264_cuvid -i $_.name -s 960x540 -c:v h264_nvenc -c:a copy -b:v 1M   ($_.name+'small.mp4')
+}
 ```
 
